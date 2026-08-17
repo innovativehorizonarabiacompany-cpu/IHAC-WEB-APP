@@ -2,17 +2,20 @@ import nodemailer from 'nodemailer';
 import { setDefaultResultOrder } from 'node:dns';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import tls from 'node:tls';
 
 // This machine has no IPv6 route to Gmail's SMTP — prefer IPv4 or the
 // connection dies with ECONNREFUSED on the resolved IPv6 address.
 setDefaultResultOrder('ipv4first');
 
-// AVG antivirus SSL-intercepts outbound SMTP. If its root CA is present,
-// add it to the trust chain so nodemailer can complete TLS. On servers
-// without the file, normal verification applies.
+// AVG antivirus SSL-intercepts outbound SMTP on some local machines. If its
+// root CA is present, ADD it to the default trust chain (never replace it —
+// replacing the store breaks verification of Gmail's real certificate on
+// servers where no interception is happening). On servers without the file,
+// normal verification applies.
 function loadCaCerts() {
   const p = join(process.cwd(), 'avg-root-ca.pem');
-  if (existsSync(p)) return [readFileSync(p, 'utf8')];
+  if (existsSync(p)) return [...tls.rootCertificates, readFileSync(p, 'utf8')];
   return undefined;
 }
 
