@@ -12,6 +12,7 @@ import IndustriesAccordion from '@/components/IndustriesAccordion';
 import ParticleBackground from '@/components/ParticleBackground';
 import ProjectCoverflow from '@/components/ProjectCoverflow';
 import HexCarousel from '@/components/HexCarousel';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 function SectionHeader({ tag, title, text }) {
   return (
@@ -33,7 +34,8 @@ function ScrollReveal({ children, className = '' }) {
       { threshold: 0.1 }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    const net = revealSafetyNet([el]);
+    return () => { observer.disconnect(); net(); };
   }, []);
   return <div ref={ref} className={'reveal ' + className} style={{ opacity: 0, transform: 'translateY(40px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>{children}</div>;
 }

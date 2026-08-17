@@ -134,13 +134,33 @@ function startViewer(container, onStatus, onError) {
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 0, 5);
 
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  } catch (err) {
+    console.warn('Fabrication3DViewer: WebGL unavailable —', err?.message || String(err));
+    onError('3D preview unavailable on this device.');
+    onStatus('failed');
+    return {
+      goTo: () => {},
+      currentIndex: () => 0,
+      dispose: () => {},
+    };
+  }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
   const canvas = renderer.domElement;
   canvas.className = 'ith3d-canvas';
   container.appendChild(canvas);
+
+  const onContextLost = (e) => {
+    e.preventDefault();
+    running = false;
+    onError('3D preview unavailable — graphics context was lost.');
+    onStatus('failed');
+  };
+  canvas.addEventListener('webglcontextlost', onContextLost);
 
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
@@ -325,6 +345,7 @@ function startViewer(container, onStatus, onError) {
     mounted = false;
     running = false;
     renderer.setAnimationLoop(null);
+    canvas.removeEventListener('webglcontextlost', onContextLost);
     document.removeEventListener('visibilitychange', onVisibility);
     ro.disconnect();
     controls.dispose();

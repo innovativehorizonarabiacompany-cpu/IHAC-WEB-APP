@@ -10,6 +10,7 @@ import { siteConfig } from '@/data/siteData';
 import TrustSection from '@/components/TrustSection';
 import AboutIHAC from '@/components/AboutIHAC/AboutIHAC';
 import AboutJourney from '@/components/AboutJourney/AboutJourney';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 const ACCENT = '#E8A73B';
 
@@ -33,7 +34,8 @@ function useScrollAnim(selector, opts = {}) {
       });
     }, { threshold: 0.1 });
     els.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    const net = revealSafetyNet(Array.from(els));
+    return () => { obs.disconnect(); net(); };
   }, []);
 }
 
@@ -87,7 +89,8 @@ export default function AboutPage() {
       });
     }, { threshold: 0.1 });
     cards.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    const net = revealSafetyNet(Array.from(cards));
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   useEffect(() => {
@@ -109,7 +112,9 @@ export default function AboutPage() {
       });
     }, { threshold: 0.1 });
     items.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    const inners = Array.from(items).flatMap((el) => Array.from(el.querySelectorAll('.ab-split-inner')));
+    const net = revealSafetyNet(inners);
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   return (

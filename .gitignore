@@ -7,3 +7,5 @@ avg-root-ca.pem
 
 .env
 *.log
+.vercel
+.env*

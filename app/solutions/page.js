@@ -7,6 +7,7 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '600'
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import GearAssembly from '@/components/IntegratedSolutions/GearAssembly';
 import MethodicalDelivery from '@/components/MethodicalDelivery/MethodicalDelivery';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 const ACCENT = '#E8A73B';
 
@@ -34,7 +35,8 @@ function useScrollStagger(ref, selector, opts = {}) {
       });
     }, { threshold });
     obs.observe(el);
-    return () => obs.disconnect();
+    const net = revealSafetyNet(Array.from(targets));
+    return () => { obs.disconnect(); net(); };
   }, []);
 }
 
@@ -159,7 +161,8 @@ export default function SolutionsPage() {
       });
     }, { threshold: 0.12 });
     obs.observe(el);
-    return () => obs.disconnect();
+    const net = revealSafetyNet([tag, title, sub].filter(Boolean));
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   const headerRef1 = useRef(null);
@@ -188,7 +191,8 @@ export default function SolutionsPage() {
       });
     }, { threshold: 0.12 });
     obs.observe(el);
-    return () => obs.disconnect();
+    const net = revealSafetyNet([h2, p, btn].filter(Boolean));
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   /* ── Sol card renderer ── */

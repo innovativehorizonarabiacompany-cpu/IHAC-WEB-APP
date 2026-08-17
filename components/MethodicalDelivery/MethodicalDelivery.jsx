@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import { FileSearch, CalendarRange, DraftingCompass, Wrench, FlaskConical, Handshake } from 'lucide-react';
 import styles from './MethodicalDelivery.module.css';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 const STAGES = [
   { num: '01', title: 'Requirement Review', desc: 'Deep analysis of project needs, specifications, and constraints.', icon: FileSearch },
@@ -74,7 +75,8 @@ export default function MethodicalDelivery() {
       { threshold: 0.15 }
     );
     obs.observe(section);
-    return () => obs.disconnect();
+    const net = revealSafetyNet([eyebrow, title, sub, ...Array.from(cards), ...Array.from(icons)]);
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   return (

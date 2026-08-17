@@ -5,6 +5,7 @@ import { Send } from 'lucide-react';
 import { downloadsData } from '@/data/siteData';
 import { generatedDownloads } from '@/data/generatedDownloads';
 import FormSuccess from '@/components/FormSuccess';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 const realCategories = generatedDownloads.categories.filter((c) => c.items.length > 0);
 const categories = realCategories.length ? realCategories : downloadsData.categories;
@@ -22,7 +23,8 @@ function ScrollReveal({ children }) {
     if (!el) return;
     const observer = new IntersectionObserver(([e]) => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }, { threshold: 0.1 });
     observer.observe(el);
-    return () => observer.disconnect();
+    const net = revealSafetyNet([el]);
+    return () => { observer.disconnect(); net(); };
   }, []);
   return <div ref={ref} className="reveal" style={{ opacity: 0, transform: 'translateY(40px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>{children}</div>;
 }

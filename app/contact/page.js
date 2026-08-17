@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { siteConfig, departments, faqData } from '@/data/siteData';
 import FormSuccess from '@/components/FormSuccess';
+import { revealSafetyNet } from '@/components/revealSafetyNet';
 
 const ACCENT = '#E8A73B';
 
@@ -31,7 +32,8 @@ function useScrollStagger(ref, selector, opts = {}) {
       });
     }, { threshold });
     obs.observe(el);
-    return () => obs.disconnect();
+    const net = revealSafetyNet(Array.from(targets));
+    return () => { obs.disconnect(); net(); };
   }, []);
 }
 
@@ -55,7 +57,8 @@ function animSectionHeader(ref) {
     });
   }, { threshold: 0.12 });
   obs.observe(el);
-  return () => obs.disconnect();
+  const net = revealSafetyNet([tag, title, sub].filter(Boolean));
+  return () => { obs.disconnect(); net(); };
 }
 
 export default function ContactPage() {
@@ -122,7 +125,8 @@ export default function ContactPage() {
       });
     }, { threshold: 0.12 });
     obs.observe(el);
-    return () => obs.disconnect();
+    const net = revealSafetyNet([h2, p, btn].filter(Boolean));
+    return () => { obs.disconnect(); net(); };
   }, []);
 
   /* ── Form submit ── */
