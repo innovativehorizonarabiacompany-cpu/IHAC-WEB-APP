@@ -1,0 +1,139 @@
+/* ============================================================
+   Integrated Industrial Solutions — Gear Assembly
+   Decorative CSS-only gear animation. Namespaced (.iis-*) to
+   avoid collisions. No JS drives these gears; the hero's
+   Anime.js timeline is untouched.
+   ============================================================ */
+
+.iis-gear-wrapper {
+  position: absolute;
+  top: 50%;
+  right: 3.5vw;
+  width: 19rem;
+  height: 19rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.iis-gear-stack {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+  z-index: 10;
+}
+
+/* --- Gear look (burnt peach, matches site glow intensity) --- */
+
+.iis-gear {
+  fill: transparent;
+  stroke: #E08D5B;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(224, 141, 91, 0.5)) drop-shadow(0 0 20px rgba(224, 141, 91, 0.25));
+  overflow: visible;
+}
+
+.iis-gear-bg {
+  fill: transparent;
+  stroke: #E08D5B;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(224, 141, 91, 0.6));
+  overflow: visible;
+  opacity: 0.18;
+}
+
+/* --- Rotation (12s linear, infinite; counter-rotating) --- */
+
+@keyframes iis-gear-spin-cw {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes iis-gear-spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.iis-spin-cw {
+  animation: iis-gear-spin-cw 12s linear infinite;
+  transform-origin: center;
+}
+
+.iis-spin-ccw {
+  transform-origin: center;
+  animation: iis-gear-spin-ccw 12s linear infinite;
+}
+
+/* --- Reduced motion: pause the gears (reference gap, fixed) --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .iis-spin-cw,
+  .iis-spin-ccw {
+    animation: none;
+  }
+}
+
+/* --- Responsive positioning (layout-driven, proportional offsets) ---
+   The headline is a capped 1000px block inside a centred 1280px container,
+   so its right edge sits at vw/2 + ~417px. The gear assembly tracks that
+   edge: constant whitespace from the text, balanced right visual weight. */
+
+/* Tablet: bottom-right of the free zone, proportional offsets */
+@media (min-width: 769px) and (max-width: 1024.98px) {
+  .iis-gear-wrapper {
+    top: auto;
+    right: 2.5vw;
+    bottom: clamp(16px, 5vh, 48px);
+    transform: scale(0.632);
+  }
+}
+
+/* Small desktop: headline spans nearly the full width — bottom-right free zone */
+@media (min-width: 1025px) and (max-width: 1439.98px) {
+  .iis-gear-wrapper {
+    top: auto;
+    right: 2.5vw;
+    bottom: clamp(16px, 5vh, 48px);
+    transform: scale(0.737);
+  }
+}
+
+/* Desktop: vertically centred, ~48px whitespace from the headline, scaled.
+   Small leftward nudge pulls the composition off the right edge and into
+   the centre of the illustration column. */
+@media (min-width: 1440px) and (max-width: 1679.98px) {
+  .iis-gear-wrapper {
+    right: calc(50% - 744px);
+    transform: translateY(-50%) scale(0.737) translateX(-30px);
+  }
+}
+
+/* Large desktop: full-size composition, ~60px whitespace from the headline */
+@media (min-width: 1680px) {
+  .iis-gear-wrapper {
+    right: calc(50% - 796px);
+    transform: translateY(-50%) translateX(-44px);
+  }
+}
+
+/* Mobile: watermark in the top-right corner, behind the text */
+@media (max-width: 768.98px) {
+  .iis-gear-wrapper {
+    top: 84px;
+    right: 8px;
+    bottom: auto;
+    transform: scale(0.474);
+    opacity: 0.22;
+  }
+}
+
+@media (max-width: 480.98px) {
+  .iis-gear-wrapper {
+    transform: scale(0.368);
+  }
+}

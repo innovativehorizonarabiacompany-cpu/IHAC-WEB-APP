@@ -1,0 +1,720 @@
+.section {
+  --ink: #171717;
+  --paper: #F8F8F6;
+  --muted: #5B5B5B;
+  --hairline: #E3E3E3;
+  --frameFill: #FFFFFF;
+  --bus: #171717;
+  background: var(--paper);
+  padding: 84px 0 56px;
+  overflow: hidden;
+}
+
+:global([data-theme="dark"]) .section {
+  --ink: #F5F6F8;
+  --paper: var(--bg);
+  --muted: #A9B1BF;
+  --hairline: #2A3040;
+  --frameFill: #141A2E;
+  --bus: #C9CED8;
+}
+
+.wrap {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  text-align: center;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.12;
+  color: var(--ink);
+  margin: 24px 0 18px;
+}
+
+.accent {
+  color: #FFD400;
+  animation: accentBreath 6s ease-in-out infinite;
+}
+
+.paragraph {
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* Masked mechanical word reveal */
+.maskWord {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.maskInner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ---------- Stage + modules ---------- */
+
+.stage {
+  position: relative;
+  margin-top: 52px;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 28px;
+}
+
+.numberRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.number {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.tick {
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  opacity: 0.45;
+}
+
+.hexWrap {
+  position: relative;
+  width: min(260px, 100%);
+  aspect-ratio: 1;
+  margin-bottom: 22px;
+  border-radius: 10px;
+  transition: box-shadow 0.45s ease;
+}
+
+/* Unified neutral glow — same system for every module (mission/vision/values) */
+.glow {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(23, 23, 23, 0.1) 0%, rgba(23, 23, 23, 0) 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+:global([data-theme="dark"]) .glow {
+  background: radial-gradient(circle, rgba(200, 205, 215, 0.12) 0%, rgba(200, 205, 215, 0) 65%);
+}
+
+.glowOn .glow {
+  opacity: 0.35;
+  animation: glowBreath 6s ease-in-out infinite;
+}
+
+@keyframes glowBreath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.node:hover .hexWrap {
+  box-shadow: 0 18px 44px rgba(23, 23, 23, 0.1);
+}
+
+/* ---------- Engineering schematic SVG elements (power-on animation targets) ---------- */
+
+.hexFrame {
+  fill: var(--frameFill);
+  stroke: rgba(0, 0, 0, 0.07);
+  stroke-width: 1.5;
+}
+
+.hexFill {
+  pointer-events: none;
+}
+
+.hexOutline {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: miter;
+  transition: stroke 0.35s ease;
+}
+
+/* Hexagon border brightens to the active yellow on hover */
+.node:hover .hexOutline {
+  stroke: #FFD400 !important;
+}
+
+.connPath {
+  fill: none;
+}
+
+.frame {
+  fill: none;
+  stroke-linecap: square;
+}
+
+.icon {
+  pointer-events: none;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  opacity: 0.85;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Icon micro-interaction: near-imperceptible stroke lift on hover */
+.node:hover .icon {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.gear {
+  pointer-events: none;
+  transform-box: view-box;
+  transform-origin: 100px 103px;
+}
+
+.node[data-module="values"]:hover .gear {
+  animation: gearNudge 0.7s ease-in-out;
+}
+
+@keyframes gearNudge {
+  0% {
+    transform: rotate(0);
+  }
+  35% {
+    transform: rotate(18deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  position: relative;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(1);
+  transform-origin: center;
+  bottom: 0;
+  width: 44px;
+  height: 3px;
+  background: #FFD400;
+  transition: transform 0.35s ease;
+  animation: accentBreath 5.5s ease-in-out infinite;
+}
+
+.node:hover .title::after {
+  transform: translateX(-50%) scaleX(1.55);
+  animation: none;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: transparent;
+  box-shadow: 0 2px 12px rgba(23, 23, 23, 0.04);
+  transition: background 0.4s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.node:hover .card {
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(23, 23, 23, 0.1);
+}
+
+:global([data-theme="dark"]) .node:hover .card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.frameSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.frameRoute {
+  fill: none;
+  stroke: #171717;
+  stroke-opacity: 0.35;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  transition: stroke-opacity 0.4s ease;
+}
+
+.frameNode {
+  fill: #171717;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+:global([data-theme="dark"]) .frameRoute {
+  stroke: #C9CED8;
+}
+
+:global([data-theme="dark"]) .frameNode {
+  fill: #C9CED8;
+}
+
+.node:hover .frameRoute {
+  stroke-opacity: 0.9;
+  stroke: #FFD400;
+}
+
+:global([data-theme="dark"]) .node:hover .frameRoute {
+  stroke: #FFD400;
+}
+
+.node:hover .frameNode {
+  opacity: 1;
+  fill: #FFD400;
+}
+
+:global([data-theme="dark"]) .node:hover .frameNode {
+  fill: #FFD400;
+}
+
+/* ---------- Living engineering frame ---------- */
+
+.cornerBracket {
+  fill: none;
+  stroke: #171717;
+  stroke-opacity: 0.5;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: stroke-opacity 0.4s ease, stroke 0.4s ease;
+}
+
+:global([data-theme="dark"]) .cornerBracket {
+  stroke: #C9CED8;
+}
+
+.frameTick {
+  fill: none;
+  stroke: #171717;
+  stroke-opacity: 0.35;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  transition: stroke-opacity 0.4s ease;
+}
+
+:global([data-theme="dark"]) .frameTick {
+  stroke: #C9CED8;
+}
+
+/* Slow yellow scanning pulse marching around the frame route */
+.frameScan {
+  fill: none;
+  stroke: #FFD400;
+  stroke-opacity: 0.4;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-dasharray: 3 22;
+  animation: frameScanMove 7s linear infinite;
+}
+
+@keyframes frameScanMove {
+  to {
+    stroke-dashoffset: -250;
+  }
+}
+
+:global([data-theme="dark"]) .frameScan {
+  stroke-opacity: 0.38;
+}
+
+/* Tiny corner node — subconscious life */
+.framePulse {
+  fill: #FFD400;
+  animation: framePulseNode 4.5s ease-in-out 3.2s infinite both;
+}
+
+@keyframes framePulseNode {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.node:hover .cornerBracket {
+  stroke-opacity: 1;
+  stroke: #FFD400;
+}
+
+:global([data-theme="dark"]) .node:hover .cornerBracket {
+  stroke: #FFD400;
+}
+
+.node:hover .frameTick {
+  stroke-opacity: 0.9;
+}
+
+.node:hover .frameScan {
+  stroke-opacity: 0.7;
+}
+
+.cardBody {
+  padding: 24px 24px 18px;
+}
+
+.desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.word {
+  display: inline-block;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 2px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  transition: color 0.3s ease;
+}
+
+.hexTick {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  color: var(--ink);
+  opacity: 0.85;
+  transition: color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.checkLabel {
+  white-space: nowrap;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.checkDivider {
+  flex: 1;
+  height: 1px;
+  min-width: 24px;
+  background: var(--hairline);
+  transform-origin: left center;
+  margin-left: 8px;
+  transition: background 0.4s ease;
+}
+
+/* ---------- Values list: per-row precision hover ---------- */
+
+.node[data-module="values"] .checkRow {
+  border-radius: 6px;
+}
+
+.node[data-module="values"] .checkRow:hover {
+  color: #FFD400;
+}
+
+.node[data-module="values"] .checkRow:hover .hexTick {
+  color: #FFD400;
+  box-shadow: 0 0 9px rgba(255, 212, 0, 0.75);
+}
+
+.node[data-module="values"] .checkRow:hover .checkLabel {
+  transform: translateX(4px);
+}
+
+.node[data-module="values"] .checkRow:hover .checkDivider {
+  background: rgba(255, 212, 0, 0.45);
+  transform: scaleX(1.12);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* ---------- Engineering connections (desktop) ---------- */
+
+.connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.connSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.junction {
+  opacity: 0.8;
+}
+
+.connTick {
+  fill: none;
+}
+
+.signal {
+  filter: drop-shadow(0 0 6px rgba(255, 212, 0, 0.9));
+}
+
+/* ---------- Tablet: two rows + vertical spine ---------- */
+
+@media (max-width: 1100px) {
+  .wrap {
+    padding: 0 36px;
+  }
+
+  .connections {
+    display: none;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 44px 0;
+    padding-left: 30px;
+  }
+
+  .grid::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: var(--bus);
+    opacity: 0.4;
+    transform-origin: top;
+    animation: spineDraw 1.2s ease-out 1.4s both;
+  }
+
+  .node {
+    padding: 0 20px;
+  }
+
+  .node::before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 52px;
+    width: 30px;
+    height: 2px;
+    background: var(--bus);
+    opacity: 0.4;
+  }
+
+  .node::after {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 47px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--bus);
+    opacity: 0.45;
+    box-sizing: border-box;
+  }
+
+  .node:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 520px);
+  }
+
+  .hexWrap {
+    width: min(240px, 100%);
+  }
+}
+
+/* ---------- Mobile: vertical engineering timeline ---------- */
+
+@media (max-width: 720px) {
+  .section {
+    padding: 60px 0 44px;
+  }
+
+  .wrap {
+    padding: 0 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 52px;
+    padding-left: 26px;
+  }
+
+  .heading {
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
+  }
+
+  .node:nth-child(3) {
+    grid-column: auto;
+    width: auto;
+    justify-self: stretch;
+  }
+}
+
+@keyframes spineDraw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes accentBreath {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hexWrap,
+  .frameRoute,
+  .frameNode,
+  .icon,
+  .cornerBracket,
+  .frameTick {
+    transition: none;
+  }
+
+  .node:hover .hexWrap {
+    box-shadow: none;
+  }
+
+  .node:hover .icon {
+    opacity: 1;
+    transform: none;
+  }
+
+  .node:hover .card {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .node:hover .title::after {
+    transform: translateX(-50%);
+  }
+
+  .node:hover .glow {
+    background: radial-gradient(circle, rgba(23, 23, 23, 0.1) 0%, rgba(23, 23, 23, 0) 65%);
+  }
+
+  :global([data-theme="dark"]) .node:hover .glow {
+    background: radial-gradient(circle, rgba(200, 205, 215, 0.12) 0%, rgba(200, 205, 215, 0) 65%);
+  }
+
+  .frameScan,
+  .framePulse {
+    animation: none;
+  }
+
+  .frameScan {
+    stroke-opacity: 0.35;
+  }
+
+  .glowOn .glow {
+    animation: none;
+  }
+
+  .node[data-module="values"]:hover .gear {
+    animation: none;
+  }
+
+  .node[data-module="values"] .checkRow:hover,
+  .node[data-module="values"] .checkRow:hover .checkLabel,
+  .node[data-module="values"] .checkRow:hover .checkDivider {
+    transition: none;
+  }
+
+  .node:hover .frameRoute {
+    stroke: #171717;
+    stroke-opacity: 0.35;
+  }
+
+  :global([data-theme="dark"]) .node:hover .frameRoute {
+    stroke: #C9CED8;
+  }
+
+  .node:hover .hexOutline {
+    stroke: #171717 !important;
+  }
+
+  :global([data-theme="dark"]) .node:hover .hexOutline {
+    stroke: #C9CED8 !important;
+  }
+
+  .title::after {
+    animation: none;
+    opacity: 1;
+  }
+
+  .grid::before {
+    animation: none;
+  }
+}

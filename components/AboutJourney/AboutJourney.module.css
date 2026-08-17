@@ -1,0 +1,343 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.process {
+  background: #ffffff;
+  padding: 110px 0;
+}
+
+.processTrack {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.processRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  grid-template-rows: auto;
+  gap: 0 20px;
+  margin-bottom: 26px;
+  align-items: start;
+}
+
+.processMiddle {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  align-self: stretch;
+}
+
+.processSegment {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #E5E5E5;
+  transform: translateX(-50%);
+  transform-origin: top;
+}
+
+.processDot {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #C88A1A;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px #C88A1A;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.rowEven .processCardWrap {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.rowEven .processPanel {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.rowOdd .processCardWrap {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.rowOdd .processPanel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.processCard {
+  padding: 34px 34px 36px;
+  border-radius: 8px;
+  transition: box-shadow 180ms ease;
+}
+
+.processCardLight {
+  background: #F2F2F2;
+}
+
+.processCardDark {
+  background: #121212;
+  color: #ffffff;
+}
+
+.processCardDark .processTitle,
+.processCardDark .processDesc {
+  color: #ffffff;
+}
+
+.processCard:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.processNumber {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #C88A1A;
+}
+
+.processTitle {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 12px 0 0;
+  color: #121212;
+}
+
+.processDesc {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #6B6B6B;
+  margin: 12px 0 0;
+}
+
+.processConnector {
+  position: absolute;
+  top: 30px;
+  height: 1px;
+  z-index: 2;
+}
+
+.connectorRight {
+  left: calc(50% - 44px);
+  width: 88px;
+}
+
+.connectorLeft {
+  right: calc(50% + 44px);
+  width: 88px;
+}
+
+.processConnector svg {
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+
+.processPanel {
+  padding-top: 26px;
+}
+
+.processPanelIcon {
+  display: inline-flex;
+  color: #C88A1A;
+}
+
+.processPanelYear {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.processPanelKicker {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C88A1A;
+}
+
+.processPanelLine {
+  display: block;
+  width: 52px;
+  height: 2px;
+  background: #000;
+  margin-top: 6px;
+  transform-origin: center;
+}
+
+.processPanelTitle {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #121212;
+  margin: 8px 0 0;
+}
+
+.processPanelBody {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #6B6B6B;
+  margin: 10px 0 0;
+  max-width: 380px;
+}
+
+.processPanelList {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.processPanelList li {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #6B6B6B;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.processPanelList li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #C88A1A;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.processPanelMetric {
+  display: block;
+  width: fit-content;
+  margin-top: 18px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #121212;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #C88A1A;
+}
+
+@media (max-width: 1024px) {
+  .processRow {
+    grid-template-columns: 1fr 40px 1fr;
+    grid-template-rows: auto auto;
+    margin-bottom: 40px;
+  }
+
+  .processMiddle {
+    grid-row: 1 / 3;
+  }
+
+  .rowEven .processCardWrap {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .rowEven .processPanel {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .rowOdd .processCardWrap {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .rowOdd .processPanel {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .processPanel {
+    padding-top: 22px;
+    border-top: 1px dashed #E5E5E5;
+    margin-top: 20px;
+  }
+
+  .processConnector {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .process {
+    padding: 80px 0;
+  }
+
+  .processTrack {
+    position: relative;
+    padding-left: 44px;
+  }
+
+  .processTrack::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #E5E5E5;
+  }
+
+  .processRow {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    margin-bottom: 48px;
+  }
+
+  .processMiddle {
+    display: none;
+  }
+
+  .rowEven .processCardWrap,
+  .rowOdd .processCardWrap,
+  .rowEven .processPanel,
+  .rowOdd .processPanel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .processCard {
+    padding: 28px 26px;
+  }
+
+  .processDot {
+    left: -31px;
+    top: 26px;
+  }
+
+  .processConnector {
+    display: block;
+    position: static;
+    width: 72px;
+    height: 1px;
+    margin: 26px 0;
+  }
+
+  .processPanel {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
