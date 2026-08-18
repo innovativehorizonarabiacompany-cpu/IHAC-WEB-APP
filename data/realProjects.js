@@ -183,7 +183,7 @@ export const realProjects = [
     location: '',
     category: 'Civil Work',
     year: 2025,
-    image: PICTURES('WhatsApp%20Image%202026-07-24%20at%2012.06.38%20PM%20(1).jpeg'),
+    image: '/images/excavation.jpeg',
     services: ['Civil Work'],
     deliverables: ['Manual excavation works'],
     overview: 'Manual excavation works delivered as part of civil works — contract period 2025.',
